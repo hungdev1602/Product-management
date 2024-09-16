@@ -31,3 +31,28 @@ if(boxFilter){
   }
 }
 // Hết bộ lọc
+
+// Tìm kiếm
+const formSearch = document.querySelector("[form-search]")
+if(formSearch){
+  let url = new URL(location.href); //Nhân bản url
+  formSearch.addEventListener("submit", (event) => {
+    event.preventDefault()
+
+    const value = event.target.keyword.value
+    if(value){
+      url.searchParams.set("keyword", value)
+    }
+    else{
+      url.searchParams.delete("keyword")
+    }
+
+    location.href = url
+  })
+
+  // Hiển thị từ khoá tìm kiếm mặc định (nếu người dùng đã search)
+  if(url.searchParams.get("keyword")){
+    formSearch.keyword.value = url.searchParams.get("keyword")
+  }
+}
+// Hết Tìm kiếm
