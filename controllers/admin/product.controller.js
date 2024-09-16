@@ -17,10 +17,31 @@ module.exports.index = async (req, res) => {
   }
   // Hết tìm kiếm sản phẩm
 
-  const products = await Product.find(find)
+  // Phân trang
+  let limitItem = 4;
+  let page = 1;
+
+  if(req.query.limit){
+    limitItem = parseInt(req.query.limit)
+  }
+
+  if(req.query.page){
+    page = parseInt(req.query.page)
+  }
+  const skip = (page - 1) * limitItem; // bỏ qua bao nhiêu phần tử, để bắt đầu lấy phần tử của trang đó
+
+  // trả về cho FE cần vẽ bao nhiêu trang
+  const totalProduct = await Product.countDocuments(find) // đếm tổng sản phẩm trong db
+  const totalPage = Math.ceil(totalProduct / limitItem) //đếm tổng cần bao nhiêu trang
+  // Hết Phân trang
+
+  const products = await Product.find(find).limit(limitItem).skip(skip)
+
 
   res.render("admin/pages/product/index.pug", {
     pageTitle: "Danh sach san pham",
-    products: products
+    products: products,
+    totalPage: totalPage,
+    currentPage: page
   })
 }
