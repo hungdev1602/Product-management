@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/box-filter.pug
 
 block main 
   h1 Trang danh sach san pham
@@ -8,24 +9,22 @@ block main
     .card-body
       .row 
         .col-4 
-          select(class="form-control" box-filter)
-            option(value="") Tất cả
-            option(value="active") Hoạt động
-            option(value="inactive") Dừng hoạt động
+          +box-filter([
+            {
+              value: "",
+              label: "Tất cả"
+            },
+            {
+              value: "active",
+              label: "Hoạt động"
+            },
+            {
+              value: "inactive",
+              label: "Dừng hoạt động"
+            }
+          ])
         .col-8
-          form(form-search)
-            .input-group
-              input(
-                type="text"
-                placeholder="Nhập từ khóa"
-                name="keyword"
-                class="form-control"
-              )
-              .input-group-append
-                button(
-                  class="btn btn-success"
-                  type="submit"
-                ) Tìm
+          include ../../partials/form-search.pug
       
 
   .card

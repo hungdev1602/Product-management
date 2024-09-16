@@ -1,0 +1,4 @@
+mixin box-filter(options)
+  select(class="form-control" box-filter)
+    each item in options
+      option(value=item.value) #{item.label}
