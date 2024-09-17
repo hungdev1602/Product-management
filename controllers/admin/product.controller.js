@@ -37,11 +37,24 @@ module.exports.index = async (req, res) => {
 
   const products = await Product.find(find).limit(limitItem).skip(skip)
 
-
   res.render("admin/pages/product/index.pug", {
     pageTitle: "Danh sach san pham",
     products: products,
     totalPage: totalPage,
     currentPage: page
+  })
+}
+
+module.exports.changeStatus = async (req, res) => {
+
+  await Product.updateOne({
+    _id: req.body.id
+  }, {
+    status: req.body.status
+  })
+
+  res.json({
+    code: "success",
+    message: "đổi trạng thái thành công"
   })
 }
