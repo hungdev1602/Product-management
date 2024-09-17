@@ -45,6 +45,41 @@ module.exports.index = async (req, res) => {
   })
 }
 
+module.exports.trash = async (req, res) => {
+  const find = {
+    deleted: true
+  }
+
+  const products = await Product.find(find)
+  res.render("admin/pages/product/trash.pug", {
+    products: products
+  })
+}
+
+module.exports.restore = async (req, res) => {
+  await Product.updateOne({
+    _id: req.body.id
+  }, {
+    deleted: false
+  })
+
+  res.json({
+    code: "success",
+    message: "Khôi phục thành công"
+  })
+}
+
+module.exports.deletePermanently = async (req, res) => {
+  await Product.deleteOne({
+    _id: req.body.id
+  })
+
+  res.json({
+    code: "success",
+    message: "Đã xoá hẳn khỏi DB"
+  })
+}
+
 module.exports.changeStatus = async (req, res) => {
 
   await Product.updateOne({

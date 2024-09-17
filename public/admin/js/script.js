@@ -192,3 +192,65 @@ if(listButtonDelete.length > 0){
   })
 }
 // Hết Tính năng xoá bản ghi
+
+// Tính năng khôi phục sản phẩm ở trang thùng rác
+const buttonRestore = document.querySelectorAll("[button-restore]")
+if(buttonRestore.length > 0){
+  buttonRestore.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm("Bạn chắc chắn muốn khôi phục bản ghi này chứ")
+      if(isConfirm){
+        const id = button.getAttribute("button-restore")
+        const path = button.getAttribute("data-path")
+        
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PATCH",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code === "success"){
+              location.reload()
+            }
+          })
+      }
+    })
+  })
+}
+// Hết Tính năng khôi phục sản phẩm ở trang thùng rác
+
+// Tính năng xoá vĩnh viễn ở sản phẩm ở trang thùng rác
+const buttonDeletePermanently = document.querySelectorAll("[button-delete-permanently]")
+if(buttonDeletePermanently.length > 0){
+  buttonDeletePermanently.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm("Bạn chắc chắn muốn xoá sản phẩm này vĩnh viễn? Sẽ không khôi phục được!")
+      if(isConfirm){
+        const id = button.getAttribute("item-id")
+        const path = button.getAttribute("data-path")
+
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code === "success"){
+              location.reload()
+            }
+          })
+      }
+    })
+  })
+}
+// Hết Tính năng xoá vĩnh viễn ở sản phẩm ở trang thùng rác
