@@ -116,3 +116,48 @@ if(listButtonChangeStatus.length > 0){
   })
 }
 // Hết Thay đổi trạng thái sản phẩm
+
+// Thay đổi trạng thái cho NHIỀU bản ghi
+const formChangeMulti = document.querySelector("[form-change-multi]")
+if(formChangeMulti){
+  formChangeMulti.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const path = formChangeMulti.getAttribute("data-path")
+    // trạng thái cần đổi
+    const status = formChangeMulti.status.value
+    
+    // tạo mảng lưu các id sản phẩm muốn đổi
+    const ids = []
+    
+    // Lấy ra các ô input đã check
+    const listInputChange = document.querySelectorAll("[input-change]:checked")
+    if(listInputChange.length > 0){
+      listInputChange.forEach(input => {
+        const id = input.getAttribute("input-change")
+        ids.push(id)
+      })
+    }
+    else{
+      return
+    }
+    const data = {
+      ids: ids,
+      status: status
+    }
+
+    fetch(path, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if(data.code === "success"){
+          location.reload()
+        }
+      })
+  })
+}
+// Hết Thay đổi trạng thái cho NHIỀU bản ghi
