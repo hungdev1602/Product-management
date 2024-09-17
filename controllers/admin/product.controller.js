@@ -72,3 +72,14 @@ module.exports.changeMulti = async (req, res) => {
     message: "đổi trạng thái thành công"
   })
 }
+
+module.exports.delete = async (req, res) => {
+  await Product.deleteOne({
+    _id: req.body.id
+  })
+
+  res.json({
+    code: "success",
+    message: "đổi trạng thái thành công"
+  })
+}
