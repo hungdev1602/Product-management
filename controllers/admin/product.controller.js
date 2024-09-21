@@ -95,9 +95,10 @@ module.exports.changeStatus = async (req, res) => {
     status: req.body.status
   })
 
+  req.flash('success', 'Đổi trạng thái thành công')
+
   res.json({
     code: "success",
-    message: "đổi trạng thái thành công"
   })
 }
 
@@ -110,9 +111,9 @@ module.exports.changeMulti = async (req, res) => {
       }, {
         status: req.body.status
       })
+      req.flash('success', 'Đổi trạng thái thành công')
       res.json({
-        code: "success",
-        message: "Đổi trạng thái thành công"
+        code: "success"
       })
       break;
     case "delete":
@@ -121,9 +122,9 @@ module.exports.changeMulti = async (req, res) => {
       }, {
         deleted: true
       })
+      req.flash('success', 'Xoá thành công')
       res.json({
-        code: "success",
-        message: "Xoá thành công"
+        code: "success"
       })
       break;
     default:
@@ -132,7 +133,6 @@ module.exports.changeMulti = async (req, res) => {
         message: "Trạng thái không hợp lệ"
       })
   }
-  
 }
 
 module.exports.delete = async (req, res) => {
@@ -155,8 +155,9 @@ module.exports.changePosition = async (req, res) => {
     position: req.body.position
   })
 
+  req.flash("success", "Đổi vị trí thành công")
+
   res.json({
-    code: "success",
-    message: "Đổi vị trí thành công"
+    code: "success"
   })
 }

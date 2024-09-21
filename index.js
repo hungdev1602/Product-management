@@ -1,9 +1,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const flash = require('express-flash')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT;
+
+// nhúng thư viện express-flash để hiện thỉ thông báo
+app.use(cookieParser('NDHLTBH'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 // parse application/json của thư viện body-parser
 app.use(bodyParser.json())

@@ -293,3 +293,13 @@ if(listInputChangePosition.length > 0){
   })
 }
 // Hết Tính năng thay đổi vị trí sản phẩm
+
+// Tắt thông báo alert message sau 3s
+const alertMessage = document.querySelector("[alert-message]")
+if(alertMessage){
+  setTimeout(() => {
+    alertMessage.style.display = "none"
+  }, 3000)
+}
+
+// Hết Tắt thông báo alert message sau 3s
