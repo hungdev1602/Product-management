@@ -16,6 +16,9 @@ app.use(flash());
 // parse application/json của thư viện body-parser
 app.use(bodyParser.json())
 
+// parse application/x-www-form-urlencoded của thư viện body-parser dành cho form
+app.use(bodyParser.urlencoded({ extended: false }))
+
 const systemConfig = require('./config/system')
 
 // Connect database

@@ -161,3 +161,15 @@ module.exports.changePosition = async (req, res) => {
     code: "success"
   })
 }
+
+module.exports.create = (req, res) => {
+  res.render("admin/pages/product/create.pug", {
+    pageTitle: "Trang thêm mới sản phẩm"
+  })
+}
+
+module.exports.createPost = (req, res) => {
+  console.log(req.body)
+
+  res.json("Ok")
+}

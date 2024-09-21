@@ -47,8 +47,9 @@ block main
                   type="submit"
                 ) Áp dụng
         
-        .col-6 
-          a(class="nav-link active" aria-current="page" href=`/${prefixAdmin}/products/trash`) Trang thùng rác
+        .col-6.text-right
+          a(class="btn btn-outline-success mr-3" aria-current="page" href=`/${prefixAdmin}/products/create`) + Thêm mới
+          a(class="btn btn-outline-success" aria-current="page" href=`/${prefixAdmin}/products/trash`) Trang thùng rác
 
       table.table.table-hover.table-sm
         thead

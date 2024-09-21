@@ -19,4 +19,8 @@ router.delete('/delete-permanently', controller.deletePermanently)
 
 router.patch('/change-position', controller.changePosition)
 
+router.get('/create', controller.create)
+
+router.post('/create', controller.createPost)
+
 module.exports = router
