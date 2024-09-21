@@ -261,3 +261,35 @@ if(buttonDeletePermanently.length > 0){
   })
 }
 // Hết Tính năng xoá vĩnh viễn ở sản phẩm ở trang thùng rác
+
+// Tính năng thay đổi vị trí sản phẩm
+const listInputChangePosition = document.querySelectorAll("[input-change-position]")
+if(listInputChangePosition.length > 0){
+  listInputChangePosition.forEach(input => {
+    input.addEventListener("change", () => {
+      const id = input.getAttribute("item-id")
+      const position = input.value;
+      const path = input.getAttribute("data-path")
+
+      const data = {
+        id: id,
+        position: position
+      }
+
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code === "success"){
+            location.reload()
+          }
+        })
+    })
+  })
+}
+// Hết Tính năng thay đổi vị trí sản phẩm

@@ -35,7 +35,13 @@ module.exports.index = async (req, res) => {
   const totalPage = Math.ceil(totalProduct / limitItem) //đếm tổng cần bao nhiêu trang
   // Hết Phân trang
 
-  const products = await Product.find(find).limit(limitItem).skip(skip)
+  const products = await Product
+    .find(find)
+    .limit(limitItem)
+    .skip(skip)
+    .sort({
+      position: "desc"
+    })
 
   res.render("admin/pages/product/index.pug", {
     pageTitle: "Danh sach san pham",
@@ -44,7 +50,7 @@ module.exports.index = async (req, res) => {
     currentPage: page
   })
 }
-
+// Trang thùng rác
 module.exports.trash = async (req, res) => {
   const find = {
     deleted: true
@@ -52,7 +58,8 @@ module.exports.trash = async (req, res) => {
 
   const products = await Product.find(find)
   res.render("admin/pages/product/trash.pug", {
-    products: products
+    products: products,
+    pageTitle: "Trang thùng rác"
   })
 }
 
@@ -138,5 +145,18 @@ module.exports.delete = async (req, res) => {
   res.json({
     code: "success",
     message: "đổi trạng thái thành công"
+  })
+}
+
+module.exports.changePosition = async (req, res) => {
+  await Product.updateOne({
+    _id: req.body.id
+  }, {
+    position: req.body.position
+  })
+
+  res.json({
+    code: "success",
+    message: "Đổi vị trí thành công"
   })
 }

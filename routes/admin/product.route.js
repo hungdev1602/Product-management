@@ -17,4 +17,6 @@ router.patch('/restore', controller.restore)
 
 router.delete('/delete-permanently', controller.deletePermanently)
 
+router.patch('/change-position', controller.changePosition)
+
 module.exports = router
