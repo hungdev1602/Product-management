@@ -125,6 +125,13 @@ if(formChangeMulti){
     const path = formChangeMulti.getAttribute("data-path")
     // trạng thái cần đổi
     const status = formChangeMulti.status.value
+
+    if(status === 'delete'){
+      const isConfirm = confirm("Bạn có chắc chắn muốn xoá những bản ghi này không?")
+      if(!isConfirm){
+        return;
+      }
+    }
     
     // tạo mảng lưu các id sản phẩm muốn đổi
     const ids = []
@@ -138,7 +145,7 @@ if(formChangeMulti){
       })
     }
     else{
-      return
+      return;
     }
     const data = {
       ids: ids,

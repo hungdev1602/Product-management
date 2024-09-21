@@ -95,17 +95,37 @@ module.exports.changeStatus = async (req, res) => {
 }
 
 module.exports.changeMulti = async (req, res) => {
+  switch(req.body.status){
+    case "active":
+    case "inactive":
+      await Product.updateMany({
+        _id: req.body.ids
+      }, {
+        status: req.body.status
+      })
+      res.json({
+        code: "success",
+        message: "Đổi trạng thái thành công"
+      })
+      break;
+    case "delete":
+      await Product.updateMany({
+        _id: req.body.ids
+      }, {
+        deleted: true
+      })
+      res.json({
+        code: "success",
+        message: "Xoá thành công"
+      })
+      break;
+    default:
+      res.json({
+        code: "error",
+        message: "Trạng thái không hợp lệ"
+      })
+  }
   
-  await Product.updateMany({
-    _id: req.body.ids
-  }, {
-    status: req.body.status
-  })
-
-  res.json({
-    code: "success",
-    message: "đổi trạng thái thành công"
-  })
 }
 
 module.exports.delete = async (req, res) => {
