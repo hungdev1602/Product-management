@@ -308,12 +308,20 @@ const uploadImage = document.querySelector("[upload-image]")
 if(uploadImage){
   const uploadImageInput = uploadImage.querySelector("[upload-image-input]")
   const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]")
+  const buttonClose = uploadImage.querySelector(".image-close")
 
   uploadImageInput.addEventListener("change", () => {
     const [file] = uploadImageInput.files
     if(file){
       uploadImagePreview.src = URL.createObjectURL(file)
+      buttonClose.style.display = "inline-block"
     }
+  })
+
+  buttonClose.addEventListener("click", () => {
+    uploadImageInput.value = ""
+    uploadImagePreview.src = ""
+    buttonClose.style.display = "none"
   })
 }
 // Hết Tính năng preview ảnh
