@@ -54,3 +54,17 @@
   right: 20px;
   z-index: 9999;
 }
+
+.image-preview{
+  width: 150px;
+  height: auto;
+  margin-top: 15px;
+  border-radius: 4px;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Nếu ảnh ko có src thì ẩn */
+.image-preview[src=""]{
+  display: none;
+}
