@@ -1,4 +1,5 @@
 const Product = require('../../models/product.model')
+const systemConfig = require('../../config/system')
 module.exports.index = async (req, res) => {
   const find = {
     deleted: false,
@@ -168,8 +169,21 @@ module.exports.create = (req, res) => {
   })
 }
 
-module.exports.createPost = (req, res) => {
-  console.log(req.body)
+module.exports.createPost = async (req, res) => {
+  req.body.price = parseInt(req.body.price)
+  req.body.discountPercentage = parseInt(req.body.discountPercentage)
+  req.body.stock = parseInt(req.body.stock)
+  if(req.body.position){
+    req.body.position = parseInt(req.body.position)
+  }
+  else{
+    const countRecord = await Product.countDocuments()
+    req.body.position = countRecord + 1;
+  }
 
-  res.json("Ok")
+  // lưu vào DB
+  const record = new Product(req.body);
+  await record.save();
+
+  res.redirect(`/${systemConfig.prefixAdmin}/products`)
 }
