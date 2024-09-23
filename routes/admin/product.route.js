@@ -1,6 +1,20 @@
 const express = require('express')
 const router = express.Router()
 
+const multer  = require('multer')
+
+// custom lại tên file ảnh khi lưu từ FE
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/uploads/') //lưu ảnh vào mục này
+  },
+  filename: function (req, file, cb) {
+    const fieldName = `${Date.now()}-${file.originalname}`; //định dạng tên file ảnh khi lưu
+    cb(null, fieldName)
+  }
+})
+const upload = multer({ storage: storage }) 
+
 const controller = require('../../controllers/admin/product.controller')
 
 router.get('/', controller.index)
@@ -21,6 +35,6 @@ router.patch('/change-position', controller.changePosition)
 
 router.get('/create', controller.create)
 
-router.post('/create', controller.createPost)
+router.post('/create', upload.single('thumbnail'), controller.createPost)
 
 module.exports = router
