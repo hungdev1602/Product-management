@@ -187,9 +187,9 @@ module.exports.createPost = async (req, res) => {
 
   res.send("OK")
 
-  // // lưu vào DB
-  // const record = new Product(req.body);
-  // await record.save();
+  // lưu vào DB
+  const record = new Product(req.body);
+  await record.save();
 
-  // res.redirect(`/${systemConfig.prefixAdmin}/products`)
+  res.redirect(`/${systemConfig.prefixAdmin}/products`)
 }
