@@ -3,10 +3,14 @@ const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const methodOverride = require('method-override')
 require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT;
+
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'))
 
 // nhúng thư viện express-flash để hiện thỉ thông báo
 app.use(cookieParser('NDHLTBH'));
