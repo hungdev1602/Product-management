@@ -325,3 +325,31 @@ if(uploadImage){
   })
 }
 // Hết Tính năng preview ảnh
+
+// Tính năng sắp xếp theo nhiều tiêu chí
+const sortSelect = document.querySelector("[sort-select]");
+if(sortSelect){
+  const url = new URL(location.href); //Nhân bản URL
+  sortSelect.addEventListener("change", () => {
+    const value = sortSelect.value;
+    
+    if(value){
+      const [sortKey, sortValue] = value.split("-");
+      url.searchParams.set("sortKey", sortKey);
+      url.searchParams.set("sortValue", sortValue);
+    }
+    else{
+      url.searchParams.delete("sortKey");
+      url.searchParams.delete("sortValue");
+    }
+
+    location.href = url.href;
+  })
+
+  const sortKeyCurrent = url.searchParams.get("sortKey");
+  const sortValueCurrent = url.searchParams.get("sortValue");
+  if(sortKeyCurrent && sortValueCurrent){
+    sortSelect.value = `${sortKeyCurrent}-${sortValueCurrent}`
+  }
+}
+// Hết Tính năng sắp xếp theo nhiều tiêu chí

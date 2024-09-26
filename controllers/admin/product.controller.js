@@ -36,13 +36,22 @@ module.exports.index = async (req, res) => {
   const totalPage = Math.ceil(totalProduct / limitItem) //đếm tổng cần bao nhiêu trang
   // Hết Phân trang
 
+  // Sắp xếp
+  const sort = {}
+
+  if(req.query.sortKey && req.query.sortValue){
+    sort[req.query.sortKey] = req.query.sortValue
+  }
+  else{
+    sort["position"] = "desc"
+  }
+  // HếtSắp xếp
+
   const products = await Product
     .find(find)
     .limit(limitItem)
     .skip(skip)
-    .sort({
-      position: "desc"
-    })
+    .sort(sort)
 
   res.render("admin/pages/product/index.pug", {
     pageTitle: "Danh sach san pham",
