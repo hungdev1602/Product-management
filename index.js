@@ -4,6 +4,7 @@ const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const methodOverride = require('method-override')
+const path = require('path');
 require('dotenv').config()
 
 const app = express();
@@ -39,6 +40,9 @@ app.use(express.static(`${__dirname}/public`)) // Thiết lập thư mục chứ
 
 // Khai báo biến toàn cục cho file PUG
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+
+// TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // Khai báo các route (đường dẫn)
 routeAdmin.index(app)
