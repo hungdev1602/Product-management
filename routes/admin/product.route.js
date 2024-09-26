@@ -3,21 +3,13 @@ const router = express.Router()
 
 const multer  = require('multer')
 
-// custom lại tên file ảnh khi lưu từ FE
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './public/uploads/') //lưu ảnh vào mục này
-  },
-  filename: function (req, file, cb) {
-    const fieldName = `${Date.now()}-${file.originalname}`; //định dạng tên file ảnh khi lưu
-    cb(null, fieldName)
-  }
-})
-const upload = multer({ storage: storage }) 
+const upload = multer() 
 
 const controller = require('../../controllers/admin/product.controller')
 
 const validate = require('../../validates/admin/product.validate')
+
+const middleware = require('../../middlewares/admin/uploadCloud.middleware')
 
 router.get('/', controller.index)
 
@@ -40,6 +32,7 @@ router.get('/create', controller.create)
 router.post(
   '/create', 
   upload.single('thumbnail'), 
+  middleware.uploadSingleToCloud,
   validate.createPost,
   controller.createPost
 )
@@ -49,6 +42,7 @@ router.get('/edit/:id', controller.edit)
 router.patch(
   '/edit/:id', 
   upload.single('thumbnail'), 
+  middleware.uploadSingleToCloud,
   validate.createPost,
   controller.editPatch
 )

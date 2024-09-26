@@ -181,9 +181,9 @@ module.exports.createPost = async (req, res) => {
     req.body.position = countRecord + 1;
   }
 
-  if(req.file){
-    req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
+  // if(req.file){
+  //   req.body.thumbnail = `/uploads/${req.file.filename}`
+  // }
 
   // lưu vào DB
   const record = new Product(req.body);
@@ -216,9 +216,9 @@ module.exports.editPatch = async (req, res) => {
     req.body.position = parseInt(req.body.position)
   }
 
-  if(req.file){
-    req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
+  // if(req.file){
+  //   req.body.thumbnail = `/uploads/${req.file.filename}`
+  // }
 
   await Product.updateOne({
     _id: id,
