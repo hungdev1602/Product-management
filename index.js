@@ -32,10 +32,10 @@ database.connect()
 const routeAdmin = require("./routes/admin/index.route")
 const routeClient = require("./routes/client/index.route")
 
-app.set('views', './views') //Tìm đến thư mục views
+app.set('views', `${__dirname}/views`) //Tìm đến thư mục views
 app.set('view engine', 'pug') // đọc template engine
 
-app.use(express.static('public')) // Thiết lập thư mục chứa file tĩnh
+app.use(express.static(`${__dirname}/public`)) // Thiết lập thư mục chứa file tĩnh
 
 // Khai báo biến toàn cục cho file PUG
 app.locals.prefixAdmin = systemConfig.prefixAdmin
