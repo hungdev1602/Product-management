@@ -209,6 +209,10 @@ module.exports.createPost = async (req, res) => {
 }
 
 module.exports.edit = async (req, res) => {
+  const listCategory = await ProductCategory.find({
+    deleted: false
+  })
+
   const id = req.params.id;
   
   const product = await Product.findOne({
@@ -218,7 +222,8 @@ module.exports.edit = async (req, res) => {
 
   res.render("admin/pages/product/edit.pug", {
     pageTitle: "Trang chỉnh sửa sản phẩm",
-    product: product
+    product: product,
+    listCategory: listCategory
   })
 }
 
