@@ -57,7 +57,8 @@ module.exports.index = async (req, res) => {
     pageTitle: "Danh sach san pham",
     products: products,
     totalPage: totalPage,
-    currentPage: page
+    currentPage: page,
+    limitItem: limitItem
   })
 }
 // Trang thùng rác
