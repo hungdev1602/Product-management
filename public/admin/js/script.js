@@ -566,3 +566,34 @@ if(buttonPermanentlyDeleteCategory){
   })
 }
 // Hết Xoá vĩnh viễn bản ghi trong danh mục sản phẩm trang thùng rác
+
+// Xoá nhóm quyền
+const buttonDeleteRole = document.querySelectorAll("[button-delete-role]");
+if(buttonDeleteRole){
+  buttonDeleteRole.forEach((button) => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm(`Bạn có chắc muốn xoá quyền này vĩnh viễn?`)
+      if(isConfirm){
+        const id = button.getAttribute("data-id")
+        const path = button.getAttribute("data-path")
+
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code === 200){
+              location.reload()
+            }
+          })
+      }
+    })
+  })
+}
+// Hết Xoá nhóm quyền

@@ -78,3 +78,25 @@ module.exports.permissionsPatch = async (req, res) => {
     code: "success"
   })
 }
+
+module.exports.detail = async (req, res) => {
+  const id = req.params.id
+  const role = await Role.findOne({
+    _id: id
+  })
+
+  res.render("admin/pages/roles/detail.pug", {
+    pageTitle: "Chi tiết nhóm quyền",
+    role: role
+  })
+}
+
+module.exports.delete = async (req, res) => {
+  await Role.deleteOne({
+    _id: req.body.id
+  })
+
+  res.json({
+    code: 200
+  })
+}
