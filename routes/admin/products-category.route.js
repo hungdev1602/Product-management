@@ -28,4 +28,18 @@ router.patch(
   controller.editPatch
 )
 
+router.patch('/change-status', controller.changeStatus)
+
+router.patch('/change-position', controller.changePosition)
+
+router.get('/trash', controller.trash)
+
+router.patch('/delete', controller.delete)
+
+router.patch('/restore', controller.restore)
+
+router.delete('/permanently-delete', controller.permanentlyDelete)
+
+router.get('/detail/:id', controller.detail)
+
 module.exports = router

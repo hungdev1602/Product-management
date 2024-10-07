@@ -11,8 +11,12 @@ block main
         .col-4.text-right 
           a(
             href=`/${prefixAdmin}/products-category/create`
-            class="btn btn-outline-success"
+            class="btn btn-outline-success mr-3"
           ) + Thêm mới
+          a(
+            href=`/${prefixAdmin}/products-category/trash`
+            class="btn btn-outline-success"
+          ) Trang thùng rác
 
   table(
         class="table table-hover table-sm"
@@ -44,23 +48,26 @@ block main
                   style="width: 60px"
                   min="1"
                   name="position"
+                  product-category-change-position
+                  data-id=item._id
+                  data-path=`/${prefixAdmin}/products-category/change-position`
                 )
               td
                 if (item.status === "active")
-                  a(
-                    href="javascript:;"
+                  button(
                     class="badge badge-success"
                     data-status="active"
                     data-id=item._id
-                    button-change-status
+                    button-change-status-category="inactive"
+                    data-path=`/${prefixAdmin}/products-category/change-status`
                   ) Hoạt động
                 else
-                  a(
-                    href="javascript:;"
+                  button(
                     class="badge badge-danger"
                     data-status="inactive"
                     data-id=item._id
-                    button-change-status
+                    button-change-status-category="active"
+                    data-path=`/${prefixAdmin}/products-category/change-status`
                   ) Dừng hoạt động
               td
                 a(
@@ -74,6 +81,6 @@ block main
                 button(
                   class="btn btn-danger btn-sm ml-1"
                   item-id=item._id
-                  button-delete
+                  button-delete-category
                   data-path=`/${prefixAdmin}/products-category/delete`
                 ) Xóa

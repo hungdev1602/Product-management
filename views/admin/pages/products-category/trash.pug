@@ -1,0 +1,37 @@
+extends ../../layouts/default.pug
+
+block main 
+  h1 #{pageTitle}
+
+  table(
+        class="table table-hover table-sm"
+      )
+        thead
+          tr
+            th STT
+            th Hình ảnh
+            th Tiêu đề
+            th Hành động
+        tbody
+          each item, index in allCategory 
+            tr
+              td #{index + 1}
+              td
+                img(
+                  src=item.thumbnail
+                  alt=item.title
+                  width="100px"
+                  height="auto"
+                )
+              td #{item.title}
+              td
+                button(
+                  class="btn btn-info btn-sm"
+                  data-path=`/${prefixAdmin}/products-category/restore`
+                  button-restore-category=item._id
+                ) Khôi phục
+                button(
+                  class="btn btn-danger btn-sm ml-1"
+                  data-path=`/${prefixAdmin}/products-category/permanently-delete`
+                  button-permanently-delete-category=item._id
+                ) Xoá vĩnh viễn

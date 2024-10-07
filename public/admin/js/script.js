@@ -407,3 +407,162 @@ if(tablePermissions){
   })
 }
 // Hết Phân quyền
+
+// Đổi trạng thái trang danh mục sản phẩm
+const buttonChangeStatusCategory = document.querySelectorAll("[button-change-status-category]");
+if(buttonChangeStatusCategory){
+  buttonChangeStatusCategory.forEach(button => {
+    button.addEventListener("click", () => {
+      const id = button.getAttribute("data-id");
+      const status = button.getAttribute("button-change-status-category");
+      const path = button.getAttribute("data-path");
+      
+      const data = {
+        id: id,
+        status: status
+      };
+
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code === 200){
+            location.reload();
+          }
+        })
+    })
+  })
+}
+// Hết Đổi trạng thái trang danh mục sản phẩm
+
+// Thay đổi thứ tự cho trang danh mục sản phẩm
+const listProductCategoryChangePosition = document.querySelectorAll("[product-category-change-position]");
+if(listProductCategoryChangePosition){
+  listProductCategoryChangePosition.forEach(input => {
+    input.addEventListener("change", () => {
+      const id = input.getAttribute("data-id");
+      const position = input.value;
+
+      const path = input.getAttribute("data-path");
+
+      const data = {
+        id: id,
+        position: position
+      }
+
+      fetch(path, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code === 200){
+            location.reload();
+          }
+        })
+    })
+  })
+}
+// Hết Thay đổi thứ tự cho trang danh mục sản phẩm
+
+// Xoá sản phẩm trang danh mục sản phẩm
+const buttonDeleteCategory = document.querySelectorAll("[button-delete-category]");
+if(buttonDeleteCategory){
+  buttonDeleteCategory.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm(`Bạn có chắc muốn xoá bản ghi này?`)
+
+      if(isConfirm){
+        const id = button.getAttribute("item-id");
+        const path = button.getAttribute("data-path");
+
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PATCH",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code === 200){
+              location.reload();
+            }
+          })
+      }
+    })
+  })
+}
+// Hết Xoá sản phẩm trang danh mục sản phẩm
+
+// Khôi phục bản ghi danh mục sản phẩm trong thùng rác
+const buttonRestoreCategory = document.querySelectorAll("[button-restore-category]");
+if(buttonRestoreCategory){
+  buttonRestoreCategory.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm(`Bạn có chắc muốn hồi phục lại bản ghi này chứ?`)
+      if(isConfirm){
+        const id = button.getAttribute("button-restore-category")
+        const path = button.getAttribute("data-path")
+
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PATCH",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code === 200){
+              location.reload();
+            }
+          })
+        }
+    })
+  })
+}
+// Hết Khôi phục bản ghi danh mục sản phẩm trong thùng rác
+
+// Xoá vĩnh viễn bản ghi trong danh mục sản phẩm trang thùng rác
+const buttonPermanentlyDeleteCategory = document.querySelectorAll("[button-permanently-delete-category]");
+if(buttonPermanentlyDeleteCategory){
+  buttonPermanentlyDeleteCategory.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm(`Bạn có chắc chắn muốn xoá bản ghi này VĨNH VIỄN?`)
+      if(isConfirm){
+        const id = button.getAttribute("button-permanently-delete-category");
+        const path = button.getAttribute("data-path");
+
+        fetch(path, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+          body: JSON.stringify({
+            id: id
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if(data.code === 200){
+              location.reload();
+            }
+          })
+        }
+    })
+  })
+}
+// Hết Xoá vĩnh viễn bản ghi trong danh mục sản phẩm trang thùng rác
