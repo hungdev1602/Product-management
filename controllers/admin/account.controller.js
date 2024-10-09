@@ -70,3 +70,27 @@ module.exports.editPatch = async(req, res) => {
   req.flash("success", "Cập nhật thành công")
   res.redirect(`back`)
 }
+
+module.exports.changePassword = async (req, res) => {
+  const account = await Account.findOne({
+    _id: req.params.id,
+    deleted: false
+  })
+
+  res.render("admin/pages/accounts/change-password.pug", {
+    pageTitle: "Thay đổi mật khẩu",
+    account: account
+  })
+}
+
+module.exports.changePasswordPatch = async (req, res) => {
+  await Account.updateOne({
+    _id: req.params.id,
+    deleted: false
+  }, {
+    password: md5(req.body.password)
+  })
+
+  req.flash("success", "Đổi mật khẩu thành công")
+  res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
+}
