@@ -4,9 +4,23 @@ const md5 = require('md5')
 const generateHelper = require("../../helpers/generate.helper")
 const systemConfig = require("../../config/system")
 
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+  const allAccounts = await Account.find({
+    deleted: false
+  })
+
+  for (const account of allAccounts) {
+    const roleId = account.role_id;
+    const role = await Role.findOne({
+      _id: roleId,
+      deleted: false
+    })
+    account.role_title = role.title
+  }
+
   res.render("admin/pages/accounts/index.pug", {
-    pageTitle: "Tài khoản bên quản trị"
+    pageTitle: "Tài khoản bên quản trị",
+    allAccounts: allAccounts
   })
 }
 
