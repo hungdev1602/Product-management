@@ -9,6 +9,7 @@ const controller = require('../../controllers/admin/product.controller')
 
 const validate = require('../../validates/admin/product.validate')
 
+// Upload images to cloud
 const middleware = require('../../middlewares/admin/uploadCloud.middleware')
 
 router.get('/', controller.index)

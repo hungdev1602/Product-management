@@ -28,7 +28,7 @@ module.exports.uploadSingleToCloud = (req, res, next) => {
 
     async function upload(req) {
       let result = await streamUpload(req);
-      req.body.thumbnail = result.url //gán thêm trường thumbnail trong DB là link ảnh trên cloud luôn
+      req.body[req.file.fieldname] = result.url //gán thêm trường thumbnail trong DB là link ảnh trên cloud luôn
       next();
     }
 
