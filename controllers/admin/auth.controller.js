@@ -41,3 +41,10 @@ module.exports.loginPost = async (req, res) => {
   res.cookie("token", user.token)
   res.redirect(`/${systemConfig.prefixAdmin}/dashboard`)
 }
+
+module.exports.logout = (req, res) => {
+  // khi đăng xuất chỉ cần xoá token là xong
+  res.clearCookie("token");
+
+  res.redirect(`/${systemConfig.prefixAdmin}/auth/login`)
+}
