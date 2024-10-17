@@ -186,24 +186,29 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
-  req.body.price = parseInt(req.body.price)
-  req.body.discountPercentage = parseInt(req.body.discountPercentage)
-  req.body.stock = parseInt(req.body.stock)
-  if(req.body.position){
-    req.body.position = parseInt(req.body.position)
+  if(res.locals.role.permissions.includes("products_create")){
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+    if(req.body.position){
+      req.body.position = parseInt(req.body.position)
+    }
+    else{
+      const countRecord = await Product.countDocuments()
+      req.body.position = countRecord + 1;
+    }
+
+    // if(req.file){
+    //   req.body.thumbnail = `/uploads/${req.file.filename}`
+    // }
+
+    // lưu vào DB
+    const record = new Product(req.body);
+    await record.save();
   }
   else{
-    const countRecord = await Product.countDocuments()
-    req.body.position = countRecord + 1;
+    req.flash("error", "Không có quyền truy cập")
   }
-
-  // if(req.file){
-  //   req.body.thumbnail = `/uploads/${req.file.filename}`
-  // }
-
-  // lưu vào DB
-  const record = new Product(req.body);
-  await record.save();
 
   res.redirect(`/${systemConfig.prefixAdmin}/products`)
 }
@@ -228,25 +233,31 @@ module.exports.edit = async (req, res) => {
 }
 
 module.exports.editPatch = async (req, res) => {
-  const id = req.params.id
+  if(res.locals.role.permissions.includes("products_edit")){
+    const id = req.params.id
 
-  req.body.price = parseInt(req.body.price)
-  req.body.discountPercentage = parseInt(req.body.discountPercentage)
-  req.body.stock = parseInt(req.body.stock)
-  if(req.body.position){
-    req.body.position = parseInt(req.body.position)
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseInt(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+    if(req.body.position){
+      req.body.position = parseInt(req.body.position)
+    }
+
+    // if(req.file){
+    //   req.body.thumbnail = `/uploads/${req.file.filename}`
+    // }
+
+    await Product.updateOne({
+      _id: id,
+      deleted: false
+    }, req.body)
+
+    req.flash("success", "Cập nhật thành công")
   }
-
-  // if(req.file){
-  //   req.body.thumbnail = `/uploads/${req.file.filename}`
-  // }
-
-  await Product.updateOne({
-    _id: id,
-    deleted: false
-  }, req.body)
-
-  req.flash("success", "Cập nhật thành công")
+  else{
+    req.flash("error", "Không có quyền truy cập")
+  }
+  
   res.redirect("back")
 }
 

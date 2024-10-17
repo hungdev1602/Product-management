@@ -1,4 +1,9 @@
 extends ../../layouts/default.pug
 
 block main 
-  h1 Trang tong quan
+  if(role.permissions.includes("dashboard_view"))
+    h1 Trang tong quan
+
+    div #{user.fullName}
+    div #{role.title}
+    //- div #{role.permissions}
