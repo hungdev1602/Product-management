@@ -12,6 +12,7 @@ block main
             th Tiêu đề
             th Giá
             th Hành động
+            th Xoá bởi
 
         tbody
           each item, index in products
@@ -34,9 +35,13 @@ block main
                   button-restore=item._id
                   data-path=`/${prefixAdmin}/products/restore`
                 ) Khôi phục
-                button(
-                  class="btn btn-danger btn-sm ml-1"
-                  item-id=item._id
-                  button-delete-permanently
-                  data-path=`/${prefixAdmin}/products/delete-permanently`
-                ) Xóa vĩnh viễn
+                if(role.permissions.includes("products_delete-permanently"))
+                  button(
+                    class="btn btn-danger btn-sm ml-1"
+                    item-id=item._id
+                    button-delete-permanently
+                    data-path=`/${prefixAdmin}/products/delete-permanently`
+                  ) Xóa vĩnh viễn
+              td 
+                div #{item.deletedByFullName}
+                div #{item.deletedAtFormat}

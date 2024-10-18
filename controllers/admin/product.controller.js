@@ -106,6 +106,21 @@ module.exports.trash = async (req, res) => {
   }
 
   const products = await Product.find(find)
+
+  for (const item of products) {
+    const deletedUser = await Account.findOne({
+      _id: item.deletedBy
+    })
+
+    if(deletedUser){
+      item.deletedByFullName = deletedUser.fullName
+    }
+
+    if(item.deletedAt){
+      item.deletedAtFormat = moment(item.deletedAt).format("HH:mm:ss DD/MM/YYYY")
+    }
+  }
+
   res.render("admin/pages/product/trash.pug", {
     products: products,
     pageTitle: "Trang thùng rác"
@@ -173,7 +188,9 @@ module.exports.changeMulti = async (req, res) => {
       await Product.updateMany({
         _id: req.body.ids
       }, {
-        deleted: true
+        deleted: true,
+        deletedBy: res.locals.user._id,
+        deletedAt: new Date()
       })
       req.flash('success', 'Xoá thành công')
       res.json({
@@ -192,7 +209,9 @@ module.exports.delete = async (req, res) => {
   await Product.updateOne({
     _id: req.body.id
   }, {
-    deleted: true
+    deleted: true,
+    deletedBy: res.locals.user._id,
+    deletedAt: new Date()
   })
 
   res.json({
