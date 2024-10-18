@@ -79,6 +79,7 @@ block main
               th Vị trí
               th Trạng thái
               th Tạo bởi
+              th Cập nhật bởi
               th Hành động
 
           tbody
@@ -136,6 +137,9 @@ block main
                 td
                   div #{item.createdByFullName}
                   div #{item.createdAtFormat}
+                td 
+                  div #{item.updatedByFullName}
+                  div #{item.updatedAtFormat}
                 td
                   a(href=`/${prefixAdmin}/products/detail/${item._id}` class="btn btn-info btn-sm") Chi tiết
                   if(role.permissions.includes("products_edit"))

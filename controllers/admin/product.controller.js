@@ -62,6 +62,7 @@ module.exports.index = async (req, res) => {
       _id: item.createdBy
     })
 
+    // tạo bởi
     if(infoCreated){
       item.createdByFullName = infoCreated.fullName
     }
@@ -71,6 +72,22 @@ module.exports.index = async (req, res) => {
 
     if(item.createdAt){
       item.createdAtFormat = moment(item.createdAt).format("HH:mm:ss DD/MM/YY")
+    }
+
+    // Cập nhật bởi
+    const infoUpdated = await Account.findOne({
+      _id: item.updatedBy
+    })
+
+    if(infoUpdated){
+      item.updatedByFullName = infoUpdated.fullName
+    }
+    else{
+      item.createdByFullName = ""
+    }
+
+    if(item.updatedAt){
+      item.updatedAtFormat = moment(item.createdAt).format("HH:mm:ss DD/MM/YY")
     }
   }
 
@@ -124,7 +141,9 @@ module.exports.changeStatus = async (req, res) => {
   await Product.updateOne({
     _id: req.body.id
   }, {
-    status: req.body.status
+    status: req.body.status,
+    updatedBy: res.locals.user._id,
+    updatedAt: new Date()
   })
 
   req.flash('success', 'Đổi trạng thái thành công')
@@ -141,7 +160,9 @@ module.exports.changeMulti = async (req, res) => {
       await Product.updateMany({
         _id: req.body.ids
       }, {
-        status: req.body.status
+        status: req.body.status,
+        updatedBy: res.locals.user._id,
+        updatedAt: new Date()
       })
       req.flash('success', 'Đổi trạng thái thành công')
       res.json({
@@ -184,7 +205,9 @@ module.exports.changePosition = async (req, res) => {
   await Product.updateOne({
     _id: req.body.id
   }, {
-    position: req.body.position
+    position: req.body.position,
+    updatedBy: res.locals.user._id,
+    updatedAt: new Date()
   })
 
   req.flash("success", "Đổi vị trí thành công")
@@ -264,6 +287,11 @@ module.exports.editPatch = async (req, res) => {
     req.body.price = parseInt(req.body.price)
     req.body.discountPercentage = parseInt(req.body.discountPercentage)
     req.body.stock = parseInt(req.body.stock)
+
+    // Lưu log lịch sử sửa đổi 1 product
+    req.body.updatedBy = res.locals.user._id
+    req.body.updatedAt = new Date()
+
     if(req.body.position){
       req.body.position = parseInt(req.body.position)
     }
