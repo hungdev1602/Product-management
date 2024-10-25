@@ -94,3 +94,27 @@ module.exports.changePasswordPatch = async (req, res) => {
   req.flash("success", "Đổi mật khẩu thành công")
   res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
 }
+
+module.exports.myProfile = async (req, res) => {
+  res.render("admin/pages/accounts/my-profile.pug", {
+    pageTitle: "Thông tin cá nhân"
+  })
+}
+
+module.exports.myProfileEdit = async (req, res) => {
+  res.render("admin/pages/accounts/my-profile-edit.pug", {
+    pageTitle: "Chỉnh sửa thông tin cá nhân",
+    user: res.locals.user
+  })
+}
+
+module.exports.myProfileEditPatch = async (req, res) => {
+  await Account.updateOne({
+    _id: res.locals.user._id,
+    deleted: false
+  }, req.body)
+
+  req.flash("success", "Sửa đổi thành công")
+
+  res.redirect(`/${systemConfig.prefixAdmin}/accounts/my-profile`)
+}

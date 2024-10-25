@@ -34,4 +34,10 @@ router.get('/change-password/:id', controller.changePassword)
 
 router.patch('/change-password/:id', controller.changePasswordPatch)
 
+router.get('/my-profile', controller.myProfile)
+
+router.get('/my-profile/edit', controller.myProfileEdit)
+
+router.patch('/my-profile/edit', controller.myProfileEditPatch)
+
 module.exports = router
