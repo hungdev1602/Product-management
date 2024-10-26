@@ -24,6 +24,10 @@ const productSchema = new mongoose.Schema(
     updatedAt: Date,
     deletedBy: String,
     deletedAt: Date,
+    featured: {
+      type: String,
+      default: "0"
+    }, //1 = nổi bật, 0 = không nổi bật
     deleted: {
       type: Boolean,
       default: false
