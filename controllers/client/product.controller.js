@@ -51,11 +51,32 @@ module.exports.category = async (req, res) => {
     status: "active"
   })
 
-  const products = await Product.find({
-    category_id: category._id,
-    status: "active",
-    deleted: false
-  })
+  // Lấy ra tất cả category (lấy các category con)
+  const allCategoryChildren = []
+
+  const getCategoryChildren = async (parentId) => {
+    const childs = await ProductCategory.find({
+      parent_id: parentId, //!!
+      status: "active",
+      deleted: false
+    })
+
+    for (const item of childs) {
+      allCategoryChildren.push(item.id) //nếu lấy item._id thay vì item.id nó sẽ lấy objectId trong mongoDB thay vì string
+      getCategoryChildren(item.id) //lấy tiếp tất cả những category con thuộc category con này (Đệ quy)
+    }
+  }
+
+  // gọi hàm lấy các category con
+  await getCategoryChildren(category._id)
+
+  // category._id là id cha, lấy theo slug. Sau đó phải lấy các danh mục con của thg cha này
+  const products = await Product
+    .find({
+      category_id: { $in: [category._id, ...allCategoryChildren]}, //sẽ lấy tất cả category_id nằm trong cái mảng này
+      status: "active",
+      deleted: false
+    })
     .sort({
       position: "desc"
     })
