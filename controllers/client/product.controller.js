@@ -31,10 +31,18 @@ module.exports.detail = async (req, res) => {
       deleted: false
     })
 
+  if(product.category_id){
+    const category = await ProductCategory.findOne({
+      _id: product.category_id,
+      deleted: false
+    })
+
+    product.category = category
+  }
+
   const discountPrice = product.price * product.discountPercentage / 100;
   product.priceNew = (product.price - discountPrice).toFixed(0)
 
-  console.log(product)
 
   res.render("client/pages/products/detail.pug", {
     pageTitle: product.title,
