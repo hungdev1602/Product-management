@@ -17,6 +17,17 @@ module.exports.cart = async (req, res, next) => {
     res.cookie("cartId", cart.id, {
       expires: new Date(Date.now() + expiresDay) //sau 1 năm sẽ hết hạn cookie
     }) //lưu id của 'cart' mới tạo này vào cookie
+
+    // trả về số lượng sản phẩm trong giỏ hàng
+    res.locals.numbersOfProduct = 0
+  }
+  else{
+    const cart = await Cart.findOne({
+      _id: req.cookies.cartId
+    })
+
+    // trả về số lượng sản phẩm trong giỏ hàng
+    res.locals.numbersOfProduct = cart.products.length
   }
 
   next()
