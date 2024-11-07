@@ -34,7 +34,8 @@ block main
                       name="quantity"
                       value=item.quantity
                       min="1"
-                      item-id="id"
+                      item-id=item.productId
+                      data-path="/cart/update"
                       style="width: 60px"
                     )
                   td #{item.total}$

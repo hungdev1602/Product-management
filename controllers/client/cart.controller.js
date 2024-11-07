@@ -93,3 +93,26 @@ module.exports.delete = async (req, res) => {
     message: "delete success"
   })
 }
+
+module.exports.update = async (req, res) => {
+  const cartId = req.cookies.cartId
+
+  const cart = await Cart.findOne({
+    _id: cartId
+  })
+
+  const products = cart.products
+  const productUpdateQuantity = products.find(item => item.productId === req.body.productId)
+  productUpdateQuantity.quantity = parseInt(req.body.quantity)
+
+  await Cart.updateOne({
+    _id: cartId
+  }, {
+    products: products
+  })
+
+  res.json({
+    code: 200,
+    message: "Cập nhật thành công"
+  })
+}
