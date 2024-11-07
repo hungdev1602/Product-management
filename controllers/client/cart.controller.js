@@ -1,4 +1,39 @@
 const Cart = require("../../models/cart.model")
+const Product = require("../../models/product.model")
+
+module.exports.index = async (req, res) => {
+  const cartId = req.cookies.cartId
+  const cart = await Cart.findOne({
+    _id: cartId
+  })
+
+  const products = cart.products
+  let totalSum = 0
+
+  for (const item of products) {
+    const productInfo = await Product.findOne({
+      _id: item.productId
+    })
+
+    item.thumbnail = productInfo.thumbnail
+    item.title = productInfo.title
+    item.newPrice = productInfo.price
+    item.slug = productInfo.slug
+    if(productInfo.discountPercentage > 0){
+      const discount = (productInfo.price * productInfo.discountPercentage / 100)
+      item.newPrice = productInfo.price - discount
+    }
+
+    item.total = item.newPrice * item.quantity
+    totalSum += item.total
+  }
+
+  res.render("client/pages/cart/index.pug", {
+    pageTitle: "Trang giỏ hàng",
+    products: products,
+    totalSum: totalSum
+  })
+}
 
 module.exports.addPost = async (req, res) => {
   // 1) tìm giỏ hàng dựa trên ID được lưu ở cookie

@@ -24,14 +24,15 @@ module.exports.index = async (req, res) => {
 
 module.exports.detail = async (req, res) => {
   const slug = req.params.slug;
+
   const product = await Product
     .findOne({
       slug: slug,
       status: "active",
       deleted: false
     })
-  console.log(product)
-  if(product.category_id){
+
+  if(product?.category_id){
     const category = await ProductCategory.findOne({
       _id: product.category_id,
       deleted: false
