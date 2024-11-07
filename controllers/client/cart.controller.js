@@ -73,3 +73,23 @@ module.exports.addPost = async (req, res) => {
   req.flash('success', 'Đã thêm vào giỏ hàng')
   res.redirect('back')
 }
+
+module.exports.delete = async (req, res) => {
+  const cartId = req.cookies.cartId
+  const cart = await Cart.findOne({
+    _id: cartId
+  })
+
+  const products = cart.products.filter(item => item.productId !== req.body.id)
+  
+  await Cart.updateOne({
+    _id: cartId
+  }, {
+    products: products
+  })
+
+  res.json({
+    code: 200,
+    message: "delete success"
+  })
+}
