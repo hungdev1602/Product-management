@@ -85,3 +85,37 @@ module.exports.orderPost = async (req, res) => {
 
   res.redirect(`/order/success/${newOrder.id}`)
 }
+
+module.exports.success = async (req, res) => {
+  const orderId = req.params.id
+  const order = await Order.findOne({
+    _id: orderId
+  })
+
+  let totalSum = 0
+
+  for (const item of order.products) {
+    const infoProduct = await Product.findOne({
+      _id: item.productId
+    })
+
+    item.thumbnail = infoProduct.thumbnail
+    item.title = infoProduct.title
+    item.newPrice = infoProduct.price
+    if(infoProduct.discountPercentage > 0){
+      const discount = (infoProduct.price * infoProduct.discountPercentage / 100)
+      item.newPrice = parseInt((infoProduct.price - discount).toFixed(0))
+    }
+
+    item.total = item.newPrice * item.quantity
+    totalSum += item.total
+  }
+
+  console.log(order)
+
+  res.render("client/pages/order/success.pug", {
+    pageTitle: "Đặt hàng thành công",
+    order: order,
+    totalSum: totalSum
+  })
+}
