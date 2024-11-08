@@ -21,7 +21,7 @@ module.exports.index = async (req, res) => {
     item.slug = productInfo.slug
     if(productInfo.discountPercentage > 0){
       const discount = (productInfo.price * productInfo.discountPercentage / 100)
-      item.newPrice = productInfo.price - discount
+      item.newPrice = parseInt((productInfo.price - discount).toFixed(0))
     }
 
     item.total = item.newPrice * item.quantity
