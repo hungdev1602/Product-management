@@ -11,6 +11,7 @@ const createTree = (array, parentId = "") => {
   }
   return newArray;
 }
+
 module.exports.getAllCategory = (array, parentId = "") => {
   const tree = createTree(array, parentId);
   return tree;

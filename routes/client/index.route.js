@@ -6,10 +6,14 @@ const userRoute = require("./user.route")
 
 const categoryMiddleware = require("../../middlewares/client/category.middleware")
 const cartMiddleware = require("../../middlewares/client/cart.middleware")
+const userMiddleware = require("../../middlewares/client/user.middleware")
+
 module.exports.index = (app) => {
   app.use(categoryMiddleware.category); //Tất cả các router đều chạy qua middleware này (cách viết tắt)
 
   app.use(cartMiddleware.cart); //Tất cả các router đều chạy qua middleware này (cách viết tắt)
+
+  app.use(userMiddleware.auth);
 
   app.use('/', homeRoute)
   
