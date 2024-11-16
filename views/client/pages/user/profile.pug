@@ -1,0 +1,21 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-item.pug
+
+block main 
+  
+  .profile-container
+    img.profile-picture(src='https://www.codekit.in/image/user.png' alt='Profile Picture')
+    .profile-info
+      if(user.fullName)
+        h2 #{user.fullName}
+      if(user.email)
+        p #{user.email}
+      if(user.status == "active")
+        p status: 
+          span.btn-success #{user.status}
+      else 
+        p status: 
+          span.btn-danger #{user.status}
+      a(href="/user/profile/edit").btn.btn-primary Change Profile
+      

@@ -176,3 +176,39 @@ module.exports.passwordResetPost = async (req, res) => {
   req.flash("success", "Thay đổi mật khẩu thành công")
   res.redirect("/")
 }
+
+module.exports.profile = async (req, res) => {
+  const tokenUser = req.cookies.tokenUser
+  const user = await User.findOne({
+    token: tokenUser
+  })
+
+  res.render("client/pages/user/profile.pug", {
+    pageTitle: "Thông tin cá nhân",
+    user: user
+  })
+}
+
+module.exports.profileEdit = async (req, res) => {
+  const tokenUser = req.cookies.tokenUser
+  
+  const user = await User.findOne({
+    token: tokenUser
+  })
+  
+  res.render("client/pages/user/profile-edit.pug", {
+    pageTitle: "Chỉnh sửa thông tin cá nhân",
+    user: user
+  })
+}
+
+module.exports.profileEditPatch = async (req, res) => {
+  const tokenUser = req.cookies.tokenUser
+  
+  await User.updateOne({
+    token: tokenUser
+  }, req.body)
+
+  req.flash("success", "Cập nhật thông tin cá nhân thành công")
+  res.redirect("/user/profile")
+}

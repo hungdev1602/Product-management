@@ -25,4 +25,10 @@ router.get('/password/reset', controller.passwordReset)
 
 router.post('/password/reset', controller.passwordResetPost)
 
+router.get('/profile', controller.profile)
+
+router.get('/profile/edit', controller.profileEdit)
+
+router.patch('/profile/edit', controller.profileEditPatch)
+
 module.exports = router
