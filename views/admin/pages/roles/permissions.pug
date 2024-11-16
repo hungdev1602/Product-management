@@ -141,4 +141,14 @@ block main
           td(class="text-center")
             input(type="checkbox" data-id=item._id)
       //- Hết Tài khoản
+      //- Cài đặt chung
+      tr
+        td(colspan="4")
+          b Cài đặt chung
+      tr(data-name="settings_change")
+        td Sử dụng
+        each item in records 
+          td(class="text-center")
+            input(type="checkbox" data-id=item._id)
+      //- Cài đặt chung
       
