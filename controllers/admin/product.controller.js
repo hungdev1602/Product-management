@@ -141,14 +141,23 @@ module.exports.restore = async (req, res) => {
 }
 
 module.exports.deletePermanently = async (req, res) => {
-  await Product.deleteOne({
-    _id: req.body.id
-  })
-
-  res.json({
-    code: "success",
-    message: "Đã xoá hẳn khỏi DB"
-  })
+  if(res.locals.role.permissions.includes("products_delete-permanently")){
+    await Product.deleteOne({
+      _id: req.body.id
+    })
+  
+    res.json({
+      code: "success",
+      message: "Đã xoá hẳn khỏi DB"
+    })
+  }
+  else{
+    res.json({
+      code: "success",
+      message: "Không có quyền truy cập"
+    })
+    req.flash("error", "Không có quyền truy cập")
+  }
 }
 
 module.exports.changeStatus = async (req, res) => {

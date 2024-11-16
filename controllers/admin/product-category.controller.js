@@ -37,8 +37,11 @@ module.exports.createPost = async (req, res) => {
     req.body.position = countRecord + 1;
   }
 
-  const record = new ProductCategory(req.body);
-  await record.save();
+  if(res.locals.role.permissions.includes("products_category_create")){
+    const record = new ProductCategory(req.body);
+    await record.save();
+  }
+  
 
   res.redirect(`/${systemConfig.prefixAdmin}/products-category`)
 }
@@ -72,12 +75,16 @@ module.exports.editPatch = async (req, res) => {
     delete req.body.position;
   }
 
-  await ProductCategory.updateOne({
-    _id: id,
-    deleted: false
-  }, req.body)
+  if(res.locals.role.permissions.includes("products-category_edit")){
+    await ProductCategory.updateOne({
+      _id: id,
+      deleted: false
+    }, req.body)
 
-  req.flash("success", "Cập nhật thành công")
+    req.flash("success", "Cập nhật thành công")
+    console.log("ok")
+  }
+  
   res.redirect(`back`)
 }
 

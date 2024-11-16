@@ -39,8 +39,12 @@ module.exports.createPost = async(req, res) => {
   req.body.password = md5(req.body.password)
   req.body.token = generateHelper.generateRandomString(30)
   
-  const account = new Account(req.body)
-  await account.save()
+  if(res.locals.role.permissions.includes("accounts_create")){
+    const account = new Account(req.body)
+    await account.save()
+    req.flash("success", "Tạo tài khoản bên quản trị thành công")
+  }
+  
 
   res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
 }
@@ -56,18 +60,21 @@ module.exports.edit = async (req, res) => {
   })
 
   res.render("admin/pages/accounts/edit.pug", {
-    pageTitle: "Tạo tài khoản bên quản trị",
+    pageTitle: "Chỉnh sửa tài khoản bên quản trị",
     roles: roles,
     account: account
   })
 }
 
 module.exports.editPatch = async(req, res) => {
-  await Account.updateOne({
-    _id: req.params.id
-  }, req.body)
-
-  req.flash("success", "Cập nhật thành công")
+  if(res.locals.role.permissions.includes("accounts_edit")){
+    await Account.updateOne({
+      _id: req.params.id
+    }, req.body)
+  
+    req.flash("success", "Cập nhật thành công")
+  }
+  
   res.redirect(`back`)
 }
 
@@ -84,14 +91,17 @@ module.exports.changePassword = async (req, res) => {
 }
 
 module.exports.changePasswordPatch = async (req, res) => {
-  await Account.updateOne({
-    _id: req.params.id,
-    deleted: false
-  }, {
-    password: md5(req.body.password)
-  })
-
-  req.flash("success", "Đổi mật khẩu thành công")
+  if(res.locals.role.permissions.includes("accounts_edit")){
+    await Account.updateOne({
+      _id: req.params.id,
+      deleted: false
+    }, {
+      password: md5(req.body.password)
+    })
+  
+    req.flash("success", "Đổi mật khẩu thành công")
+  }
+  
   res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
 }
 

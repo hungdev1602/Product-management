@@ -19,8 +19,10 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
-  const role = new Role(req.body);
-  await role.save();
+  if(res.locals.role.permissions.includes("roles_create")){
+    const role = new Role(req.body);
+    await role.save();
+  }
   
   res.redirect(`/${systemConfig.prefixAdmin}/roles`)
 }
@@ -28,26 +30,28 @@ module.exports.createPost = async (req, res) => {
 module.exports.edit = async (req, res) => {
   const id = req.params.id;
 
-  const role = await Role.findOne({
+  const roles = await Role.findOne({
     _id: id,
     deleted: false
   })
 
   res.render("admin/pages/roles/edit", {
     pageTitle: "Chỉnh sửa nhóm quyền",
-    role: role
+    roles: roles
   })
 }
 
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
 
-  await Role.updateOne({
-    _id: id,
-    deleted: false
-  }, req.body)
-
-  req.flash("success", "Cập nhật thành công")
+  if(res.locals.role.permissions.includes("roles_edit")){
+    await Role.updateOne({
+      _id: id,
+      deleted: false
+    }, req.body)
+  
+    req.flash("success", "Cập nhật thành công")
+  }
   res.redirect(`back`);
 }
 
