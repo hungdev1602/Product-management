@@ -27,4 +27,8 @@ module.exports.index = (app) => {
   app.use('/order', orderRoute)
 
   app.use('/user', userRoute)
+
+  app.get("*", (req, res) => {
+    res.render("client/pages/404/404.pug")
+  })
 }

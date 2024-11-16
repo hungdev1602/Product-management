@@ -1,0 +1,31 @@
+html
+  head
+    link(rel="stylesheet", href="/css/404.css")
+  body
+    .container.container-star
+      - for (var i = 1; i <= 30; i++)
+        .star-1
+      - for (var i = 1; i <= 30; i++)
+        .star-2
+    .container.container-bird
+      - for (var i = 1; i <= 6; i++)
+        .bird.bird-anim
+          .bird-container
+            .wing.wing-left
+              .wing-left-top
+            .wing.wing-right
+              .wing-right-top
+    .container-title
+      .title
+        .number 4
+        .moon
+          .face
+            .mouth
+            .eyes
+              .eye-left
+              .eye-right
+        .number 4
+      .subtitle Oops. Looks like you took a wrong turn.
+      button 
+        a(href="/") Go back
+
