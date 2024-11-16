@@ -5,7 +5,5 @@ module.exports.settingGeneral = async (req, res, next) => {
 
   res.locals.settingGeneral = settingGeneral
 
-  console.log(settingGeneral)
-
   next()
 }
